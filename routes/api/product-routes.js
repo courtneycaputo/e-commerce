@@ -38,8 +38,8 @@ router.get('/:id', async (req, res) => {
       },
       include: [
         {
-        model: Category,
-        attributes: ['id', 'category_name']
+          model: Category,
+          attributes: ['id', 'category_name']
         },
         {
           model: Tag,
@@ -65,13 +65,15 @@ router.get('/:id', async (req, res) => {
   */
 router.post('/', (req, res) => {
 
-  Product.create({
+  let newProduct = {
     product_name: req.body.product_name,
     price: req.body.price,
     stock: req.body.stock,
     category_id: req.body.category_id,
     tagIds: req.body.tag_id
-  })
+  }
+  
+  Product.create(newProduct)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
